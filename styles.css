@@ -1,0 +1,25 @@
+body {
+    background-color: antiquewhite;
+}
+.main-container {
+    margin: 100px auto;
+    height: 500px;
+    width: 400px;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+.display {
+    flex: 1 1 auto;
+    background-color: white;
+}
+
+.buttons-area {
+    flex: 3.5 1 auto;
+    background-color: dimgray;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
