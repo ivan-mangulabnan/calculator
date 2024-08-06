@@ -24,6 +24,16 @@ body {
     border: 7px solid antiquewhite;
     background-color: white;
     border-radius: 15px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.display > p {
+    padding-right: 10px;
+    font-size: 50px;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .buttons-area {
