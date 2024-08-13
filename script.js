@@ -31,14 +31,15 @@ allButtons.addEventListener(`click`, (event) => {
         case `one` : 
             show(`1`);
             break;
+        case `zero` : 
+            show(`0`);
+            break;
         case `clear` : 
             clearDisplay();
             break;
         case `clearOne` : 
             clearOne();
             break;
-        default :
-            show(`no`);
     }
 })
 
