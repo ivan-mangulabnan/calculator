@@ -1,6 +1,7 @@
 const display = document.querySelector(`#display`);
 const allButtons = document.querySelector(`.buttons-area`);
 
+
 allButtons.addEventListener(`click`, (event) => {
     
     switch(event.target.id) {
@@ -40,6 +41,9 @@ allButtons.addEventListener(`click`, (event) => {
         case `clearOne` : 
             clearOne();
             break;
+        case `plusMinus` : 
+            plusMinus();      
+            break;
     }
 })
 
@@ -47,16 +51,23 @@ function clearDisplay() {
     display.textContent = `0`;
 }
 
-function clearOne(displayText) {
-    displayText = display.textContent;
+
+function clearOne() {
+    let displayText = display.textContent;
+    let split = displayText.split(``);
+
     if (displayText.length === 1) {
         clearDisplay();
+    } else if (displayText.length === 2) {
+        if (split.includes(`-`)) {
+            clearDisplay();
+        }
     } else {
-        let splitValue = displayText.split(``);
-        splitValue.pop();
-        display.textContent = splitValue.join(``);
+        split.pop();
+        display.textContent = split.join(``);
     }
 }
+
 
 const MAX_LENGTH = 10;
 function show(value) {
@@ -67,6 +78,20 @@ function show(value) {
     } else {
         if (currentLength.length !== MAX_LENGTH) {
             display.textContent += value;
+        }
+    }
+}
+
+function plusMinus() {
+    let currentDisplay = display.textContent;
+    const split = currentDisplay.split(``);
+    if (currentDisplay != 0) {
+        if (!split.includes(`-`)) {
+            split.unshift(`-`);
+            display.textContent = split.join(``);
+        } else {
+            split.shift();
+            display.textContent = split.join(``);
         }
     }
 }
