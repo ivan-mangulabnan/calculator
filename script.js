@@ -1,5 +1,6 @@
 const display = document.querySelector(`#display`);
 const allButtons = document.querySelector(`.buttons-area`);
+const decimalPoint = document.querySelector(`#decimal`);
 
 
 allButtons.addEventListener(`click`, (event) => {
@@ -51,6 +52,13 @@ allButtons.addEventListener(`click`, (event) => {
 })
 
 function clearDisplay() {
+    let dis = display.textContent;
+    let split = dis.split(``);
+    if (split.includes(`.`)) {
+        decimalPoint.disabled = false;
+    }
+
+
     display.textContent = `0`;
 }
 
@@ -106,9 +114,9 @@ function decimal() {
     let currentDisplay = display.textContent;
     let split = currentDisplay.split(``);
     if (split.includes(`.`)) {
-        document.querySelector(`#decimal`).disabled = true;
+        decimalPoint.disabled = true;
     } else {
         display.textContent += `.`;
-        document.querySelector(`#decimal`).disabled = true;
+        decimalPoint.disabled = true;
     }
 }
