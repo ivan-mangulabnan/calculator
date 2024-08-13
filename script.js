@@ -44,6 +44,9 @@ allButtons.addEventListener(`click`, (event) => {
         case `plusMinus` : 
             plusMinus();      
             break;
+        case `decimal` : 
+            decimal();      
+            break;
     }
 })
 
@@ -61,6 +64,9 @@ function clearOne() {
     } else if (displayText.length === 2) {
         if (split.includes(`-`)) {
             clearDisplay();
+        } else {
+            split.pop();
+            display.textContent = split.join(``);
         }
     } else {
         split.pop();
@@ -93,5 +99,16 @@ function plusMinus() {
             split.shift();
             display.textContent = split.join(``);
         }
+    }
+}
+
+function decimal() {
+    let currentDisplay = display.textContent;
+    let split = currentDisplay.split(``);
+    if (split.includes(`.`)) {
+        document.querySelector(`#decimal`).disabled = true;
+    } else {
+        display.textContent += `.`;
+        document.querySelector(`#decimal`).disabled = true;
     }
 }
