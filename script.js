@@ -46,19 +46,28 @@ allButtons.addEventListener(`click`, (event) => {
             plusMinus();      
             break;
         case `decimal` : 
-            decimal();      
+            decimal();
+            break;
+        case `add` : 
+            operatorToUse(`+`);     
+            break;
+        case `sub` : 
+            operatorToUse(`-`);     
+            break;
+        case `mul` : 
+            operatorToUse(`×`);     
+            break;
+        case `div` : 
+            operatorToUse(`÷`);
+            break;
+        case `equals` : 
+            operate();
             break;
     }
 })
 
 function clearDisplay() {
-    let dis = display.textContent;
-    let split = dis.split(``);
-    if (split.includes(`.`)) {
-        decimalPoint.disabled = false;
-    }
-
-
+    decimalPoint.disabled = false;
     display.textContent = `0`;
 }
 
@@ -71,6 +80,8 @@ function clearOne() {
         clearDisplay();
     } else if (displayText.length === 2) {
         if (split.includes(`-`)) {
+            clearDisplay();
+        } else if (split.includes(`.`) && split[0] === `0`) {
             clearDisplay();
         } else {
             split.pop();
@@ -120,3 +131,60 @@ function decimal() {
         decimalPoint.disabled = true;
     }
 }
+
+let operationArr = [];
+function operatorToUse(operator) {
+    let operand = display.textContent;
+
+    if (operationArr.length === 0) {
+        operationArr.push(operand, operator);
+        display.textContent = `0`;
+        decimalPoint.disabled = false;
+    }
+    
+}
+
+function operate() {
+
+    if (operationArr.length === 2) {
+        
+        let arr = operationArr;
+        let operandTwo = display.textContent;
+        arr.push(operandTwo);
+        let ans;
+
+        let filteredArr = arr.filter(item => /^-?\d+(\.(\d+)?)?$/.test(item));
+        let map = filteredArr.map(item => parseFloat(item));
+        
+        switch(operationArr[1]) {
+            case `+`:
+                ans = map.reduce((total, item) => {
+                    return total += item;
+                });
+                break;
+            case `-`:
+                ans = map.reduce((total, item) => {
+                    return total -= item;
+                });
+                break;
+            case `×`:
+                ans = map.reduce((total, item) => {
+                    return total *= item;
+                });
+                break;
+            case `÷`:
+                if (map[1] === 0) {
+                    ans = `nice try :)`;
+                } else {
+                    ans = map.reduce((total, item) => {
+                        return total /= item;
+                    });
+                }
+                break;
+        }
+
+        display.textContent = ans;
+        operationArr = [];
+    }
+}
+
