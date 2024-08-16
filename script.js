@@ -95,13 +95,18 @@ function clearOne() {
 
 
 const MAX_LENGTH = 10;
+let showSecondOperand = false;
 function show(value) {
-    let currentLength = display.textContent;
 
-    if(currentLength === `0`) {
+    let displayNum = display.textContent;
+    if (displayNum === `0`) {
         display.textContent = value;
+        showSecondOperand = true;
     } else {
-        if (currentLength.length !== MAX_LENGTH) {
+        if (showSecondOperand == false) {
+            display.textContent = value;
+            showSecondOperand = true;
+        } else {
             display.textContent += value;
         }
     }
@@ -122,13 +127,22 @@ function plusMinus() {
 }
 
 function decimal() {
-    let currentDisplay = display.textContent;
-    let split = currentDisplay.split(``);
-    if (split.includes(`.`)) {
+
+    let displayNum = display.textContent;
+    if (displayNum === `0`) {
+        display.textContent += `.`;
+        showSecondOperand = true;
         decimalPoint.disabled = true;
     } else {
-        display.textContent += `.`;
-        decimalPoint.disabled = true;
+        if (showSecondOperand == false) {
+            display.textContent = `0.`
+            showSecondOperand = true;
+            decimalPoint.disabled = true;
+        } else {
+            display.textContent += `.`;
+            showSecondOperand = true;
+            decimalPoint.disabled = true;
+        }
     }
 }
 
@@ -136,55 +150,57 @@ let operationArr = [];
 function operatorToUse(operator) {
     let operand = display.textContent;
 
-    if (operationArr.length === 0) {
-        operationArr.push(operand, operator);
-        display.textContent = `0`;
-        decimalPoint.disabled = false;
+    if (operationArr.length === 0 || operationArr.length === 1) {
+            operationArr = [];
+            operationArr.push(operand, operator);
+            decimalPoint.disabled = false;
+            showSecondOperand = false;
+    } else {
+        operate();
+        operationArr.push(operator);
+        console.log(`here`);
     }
-    
 }
 
 function operate() {
 
-    if (operationArr.length === 2) {
-        
-        let arr = operationArr;
-        let operandTwo = display.textContent;
-        arr.push(operandTwo);
-        let ans;
+    let arr = operationArr;
+    arr.push(display.textContent);
+    let ans;
 
-        let filteredArr = arr.filter(item => /^-?\d+(\.(\d+)?)?$/.test(item));
-        let map = filteredArr.map(item => parseFloat(item));
-        
-        switch(operationArr[1]) {
-            case `+`:
+    let filteredArr = arr.filter(item => /^-?\d+(\.(\d+)?)?$/.test(item));
+    let map = filteredArr.map(item => parseFloat(item));
+    
+    switch(operationArr[1]) {
+        case `+`:
+            ans = map.reduce((total, item) => {
+                return total += item;
+            });
+            break;
+        case `-`:
+            ans = map.reduce((total, item) => {
+                return total -= item;
+            });
+            break;
+        case `×`:
+            ans = map.reduce((total, item) => {
+                return total *= item;
+            });
+            break;
+        case `÷`:
+            if (map[1] === 0) {
+                ans = `nice try :)`;
+            } else {
                 ans = map.reduce((total, item) => {
-                    return total += item;
+                    return total /= item;
                 });
-                break;
-            case `-`:
-                ans = map.reduce((total, item) => {
-                    return total -= item;
-                });
-                break;
-            case `×`:
-                ans = map.reduce((total, item) => {
-                    return total *= item;
-                });
-                break;
-            case `÷`:
-                if (map[1] === 0) {
-                    ans = `nice try :)`;
-                } else {
-                    ans = map.reduce((total, item) => {
-                        return total /= item;
-                    });
-                }
-                break;
-        }
-
-        display.textContent = ans;
-        operationArr = [];
+            }
+            break;
     }
+
+    display.textContent = ans; // You need to find a way to make the answer fixed at 9 digits. And it should return answers with decimal point.
+    operationArr = [ans];
+    showSecondOperand = false;
+    decimalPoint.disabled = false;
 }
 
