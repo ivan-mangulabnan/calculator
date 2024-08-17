@@ -49,7 +49,7 @@ allButtons.addEventListener(`click`, (event) => {
             decimal();
             break;
         case `add` : 
-            operatorToUse(`+`);     
+            operatorToUse(`+`);    
             break;
         case `sub` : 
             operatorToUse(`-`);     
@@ -67,8 +67,11 @@ allButtons.addEventListener(`click`, (event) => {
 })
 
 function clearDisplay() {
+    operationArr = [];
+    showSecondOperand = false;
     decimalPoint.disabled = false;
     display.textContent = `0`;
+    isOperatorClicked = false;
 }
 
 
@@ -97,8 +100,9 @@ function clearOne() {
 const MAX_LENGTH = 10;
 let showSecondOperand = false;
 function show(value) {
-
+    isOperatorClicked = false;
     let displayNum = display.textContent;
+
     if (displayNum === `0`) {
         display.textContent = value;
         showSecondOperand = true;
@@ -147,60 +151,76 @@ function decimal() {
 }
 
 let operationArr = [];
+let isOperatorClicked = false;
 function operatorToUse(operator) {
     let operand = display.textContent;
 
     if (operationArr.length === 0 || operationArr.length === 1) {
-            operationArr = [];
-            operationArr.push(operand, operator);
-            decimalPoint.disabled = false;
-            showSecondOperand = false;
+        isOperatorClicked = true;
+        operationArr = [];
+        operationArr.push(operand, operator);
+        decimalPoint.disabled = false;
+        showSecondOperand = false;
     } else {
-        operate();
-        operationArr.push(operator);
-        console.log(`here`);
+        if (isOperatorClicked == true) {
+            operationArr.pop()
+            operationArr.push(operator);
+        } else {
+            operate();
+            operationArr.push(operator);
+            isOperatorClicked = true;
+        }
     }
 }
 
 function operate() {
 
     let arr = operationArr;
-    arr.push(display.textContent);
-    let ans;
+    let displayNum = display.textContent;
 
-    let filteredArr = arr.filter(item => /^-?\d+(\.(\d+)?)?$/.test(item));
-    let map = filteredArr.map(item => parseFloat(item));
-    
-    switch(operationArr[1]) {
-        case `+`:
-            ans = map.reduce((total, item) => {
-                return total += item;
-            });
-            break;
-        case `-`:
-            ans = map.reduce((total, item) => {
-                return total -= item;
-            });
-            break;
-        case `×`:
-            ans = map.reduce((total, item) => {
-                return total *= item;
-            });
-            break;
-        case `÷`:
-            if (map[1] === 0) {
-                ans = `nice try :)`;
-            } else {
+    if (arr.length === 2) {
+        arr.push(display.textContent);
+        let ans;
+
+        let filteredArr = arr.filter(item => /^-?\d+(\.(\d+)?)?$/.test(item));
+        let map = filteredArr.map(item => parseFloat(item));
+        
+        switch(operationArr[1]) {
+            case `+`:
                 ans = map.reduce((total, item) => {
-                    return total /= item;
+                    return total += item;
                 });
-            }
-            break;
-    }
+                break;
+            case `-`:
+                ans = map.reduce((total, item) => {
+                    return total -= item;
+                });
+                break;
+            case `×`:
+                ans = map.reduce((total, item) => {
+                    return total *= item;
+                });
+                break;
+            case `÷`:
+                if (map[1] === 0) {
+                    ans = `nice try :)`;
+                } else {
+                    ans = map.reduce((total, item) => {
+                        return total /= item;
+                    });
+                }
+                break;
+        }
 
-    display.textContent = ans; // You need to find a way to make the answer fixed at 9 digits. And it should return answers with decimal point.
-    operationArr = [ans];
-    showSecondOperand = false;
-    decimalPoint.disabled = false;
+        display.textContent = ans; // You need to find a way to make the answer fixed at 9 digits. And it should return answers with decimal point.
+        operationArr = [ans];
+        showSecondOperand = false;
+        decimalPoint.disabled = false;
+    } else {
+        display.textContent = displayNum;
+    }
 }
 
+// equal button bug.
+// spamming the operator buttons bug.
+// validation for divided by zero.
