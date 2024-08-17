@@ -72,6 +72,24 @@ function clearDisplay() {
     decimalPoint.disabled = false;
     display.textContent = `0`;
     isOperatorClicked = false;
+
+    document.querySelector`#nine`.disabled = false;
+    document.querySelector`#eight`.disabled = false;
+    document.querySelector`#seven`.disabled = false;
+    document.querySelector`#six`.disabled = false;
+    document.querySelector`#five`.disabled = false;
+    document.querySelector`#four`.disabled = false;
+    document.querySelector`#three`.disabled = false;
+    document.querySelector`#two`.disabled = false;
+    document.querySelector`#one`.disabled = false;
+    document.querySelector`#zero`.disabled = false;
+    document.querySelector`#clearOne`.disabled = false;
+    document.querySelector`#plusMinus`.disabled = false;
+    document.querySelector`#equals`.disabled = false;
+    document.querySelector`#add`.disabled = false;
+    document.querySelector`#sub`.disabled = false;
+    document.querySelector`#mul`.disabled = false;
+    document.querySelector`#div`.disabled = false;
 }
 
 
@@ -99,6 +117,7 @@ function clearOne() {
 
 const MAX_LENGTH = 10;
 let showSecondOperand = false;
+
 function show(value) {
     isOperatorClicked = false;
     let displayNum = display.textContent;
@@ -117,7 +136,10 @@ function show(value) {
 }
 
 function plusMinus() {
+
     let currentDisplay = display.textContent;
+    isOperatorClicked = false;
+
     const split = currentDisplay.split(``);
     if (currentDisplay != 0) {
         if (!split.includes(`-`)) {
@@ -133,6 +155,8 @@ function plusMinus() {
 function decimal() {
 
     let displayNum = display.textContent;
+    isOperatorClicked = false;
+
     if (displayNum === `0`) {
         display.textContent += `.`;
         showSecondOperand = true;
@@ -152,6 +176,7 @@ function decimal() {
 
 let operationArr = [];
 let isOperatorClicked = false;
+
 function operatorToUse(operator) {
     let operand = display.textContent;
 
@@ -203,7 +228,7 @@ function operate() {
                 break;
             case `÷`:
                 if (map[1] === 0) {
-                    ans = `nice try :)`;
+                    ans = `Nice`;
                 } else {
                     ans = map.reduce((total, item) => {
                         return total /= item;
@@ -212,15 +237,35 @@ function operate() {
                 break;
         }
 
-        display.textContent = ans; // You need to find a way to make the answer fixed at 9 digits. And it should return answers with decimal point.
-        operationArr = [ans];
-        showSecondOperand = false;
-        decimalPoint.disabled = false;
+        // display.textContent = ans;
+        if (ans === `Nice`) {
+            display.textContent = ans;
+            document.querySelector`#nine`.disabled = true;
+            document.querySelector`#eight`.disabled = true;
+            document.querySelector`#seven`.disabled = true;
+            document.querySelector`#six`.disabled = true;
+            document.querySelector`#five`.disabled = true;
+            document.querySelector`#four`.disabled = true;
+            document.querySelector`#three`.disabled = true;
+            document.querySelector`#two`.disabled = true;
+            document.querySelector`#one`.disabled = true;
+            document.querySelector`#zero`.disabled = true;
+            document.querySelector`#clearOne`.disabled = true;
+            document.querySelector`#plusMinus`.disabled = true;
+            document.querySelector`#equals`.disabled = true;
+            document.querySelector`#add`.disabled = true;
+            document.querySelector`#sub`.disabled = true;
+            document.querySelector`#mul`.disabled = true;
+            document.querySelector`#div`.disabled = true;
+            decimalPoint.disabled = true;
+        } else {
+            display.textContent = ans;
+            operationArr = [ans];
+            showSecondOperand = false;
+            decimalPoint.disabled = false;
+        }
+
     } else {
         display.textContent = displayNum;
     }
 }
-
-// equal button bug.
-// spamming the operator buttons bug.
-// validation for divided by zero.
