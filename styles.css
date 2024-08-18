@@ -52,6 +52,15 @@ body {
     gap: 2px;
 }
 
+.buttons-right > button:hover {
+    background-color: #bc3254;
+    color: #ffffff;
+}
+
+.buttons-right > .equals:hover {
+    background-color: #e34a7e;
+}
+
 .buttons-left-top {
     flex: 0 0 80%;
     display: flex;
@@ -74,10 +83,28 @@ body {
     font-weight: bold;
 }
 
+.buttons-left-top > button:hover {
+    background-color: #4AE3AF;
+}
+
+.buttons-left-top > .non-numerical:hover {
+    background-color: #1EC28A;
+    color: white;
+}
+
 .buttons-left-bot > button {
     flex-basis: 97px;
     font-size: 20px;
     font-weight: bold;
+}
+
+.buttons-left-bot > button:hover {
+    background-color: #4AE3AF;
+}
+
+.buttons-left-bot > .non-numerical:hover {
+    background-color: #1EC28A;
+    color: white;
 }
 
 .zero {
