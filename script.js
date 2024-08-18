@@ -1,6 +1,7 @@
 const display = document.querySelector(`#display`);
 const allButtons = document.querySelector(`.buttons-area`);
 const decimalPoint = document.querySelector(`#decimal`);
+const buttonsRight = document.querySelector(`.buttons-right`);
 
 
 allButtons.addEventListener(`click`, (event) => {
@@ -66,36 +67,55 @@ allButtons.addEventListener(`click`, (event) => {
     }
 })
 
+allButtons.addEventListener(`mouseover`, (event) => { //4AE3AF
+    
+    if (event.target.matches(`.buttons-right > button`)) {
+        if (event.target.id !== `equals`) {
+            event.target.style.backgroundColor = `#bc3254`; 
+            event.target.style.color = `#ffffff`;
+        } else {
+            event.target.style.backgroundColor = `#e34a7e`;
+        }
+    } else if (event.target.matches(`.buttons-left-top > button`)) {
+        if (event.target.id === `plusMinus` || event.target.id === `clear` || event.target.id === `clearOne`) {
+            event.target.style.backgroundColor = `#1EC28A`;
+            event.target.style.color = `#ffffff`;
+        } else {
+            event.target.style.backgroundColor = `#4AE3AF`;
+        }
+    } else if (event.target.matches(`.buttons-left-bot > button`)) {
+        if (event.target.id === `decimal`) {
+            event.target.style.backgroundColor = `#1EC28A`;
+            event.target.style.color = `#ffffff`;
+        } else {
+            event.target.style.backgroundColor = `#4AE3AF`;
+        }
+    }
+})
+
+allButtons.addEventListener(`mouseout`, (event) => {
+    
+    document.querySelectorAll(`button`).forEach(() => {
+        event.target.style.backgroundColor = ``;
+        event.target.style.color = ``;
+    });
+})
+
 function clearDisplay() {
     operationArr = [];
     showSecondOperand = false;
-    decimalPoint.disabled = false;
     display.textContent = `0`;
     isOperatorClicked = false;
 
-    document.querySelector`#nine`.disabled = false;
-    document.querySelector`#eight`.disabled = false;
-    document.querySelector`#seven`.disabled = false;
-    document.querySelector`#six`.disabled = false;
-    document.querySelector`#five`.disabled = false;
-    document.querySelector`#four`.disabled = false;
-    document.querySelector`#three`.disabled = false;
-    document.querySelector`#two`.disabled = false;
-    document.querySelector`#one`.disabled = false;
-    document.querySelector`#zero`.disabled = false;
-    document.querySelector`#clearOne`.disabled = false;
-    document.querySelector`#plusMinus`.disabled = false;
-    document.querySelector`#equals`.disabled = false;
-    document.querySelector`#add`.disabled = false;
-    document.querySelector`#sub`.disabled = false;
-    document.querySelector`#mul`.disabled = false;
-    document.querySelector`#div`.disabled = false;
+    document.querySelectorAll(`button`).forEach(button => {
+        button.disabled = false;
+    })
 }
-
 
 function clearOne() {
     let displayText = display.textContent;
     let split = displayText.split(``);
+    isOperatorClicked = false;
 
     if (displayText.length === 1) {
         clearDisplay();
@@ -240,24 +260,11 @@ function operate() {
         // display.textContent = ans;
         if (ans === `Nice`) {
             display.textContent = ans;
-            document.querySelector`#nine`.disabled = true;
-            document.querySelector`#eight`.disabled = true;
-            document.querySelector`#seven`.disabled = true;
-            document.querySelector`#six`.disabled = true;
-            document.querySelector`#five`.disabled = true;
-            document.querySelector`#four`.disabled = true;
-            document.querySelector`#three`.disabled = true;
-            document.querySelector`#two`.disabled = true;
-            document.querySelector`#one`.disabled = true;
-            document.querySelector`#zero`.disabled = true;
-            document.querySelector`#clearOne`.disabled = true;
-            document.querySelector`#plusMinus`.disabled = true;
-            document.querySelector`#equals`.disabled = true;
-            document.querySelector`#add`.disabled = true;
-            document.querySelector`#sub`.disabled = true;
-            document.querySelector`#mul`.disabled = true;
-            document.querySelector`#div`.disabled = true;
-            decimalPoint.disabled = true;
+            document.querySelectorAll(`button`).forEach(button => {
+                if (button.id !== `clear`) {
+                    button.disabled = true;
+                }
+            })
         } else {
             display.textContent = ans;
             operationArr = [ans];
@@ -269,3 +276,8 @@ function operate() {
         display.textContent = displayNum;
     }
 }
+
+// Create functions for colors.
+// Create click buttons.
+// Find more bugs in the calculations.
+// ClearOne function bug.
