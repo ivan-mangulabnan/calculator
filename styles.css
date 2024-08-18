@@ -59,6 +59,7 @@ body {
 
 .buttons-right > .equals:hover {
     background-color: #e34a7e;
+    color: black;
 }
 
 .buttons-left-top {
