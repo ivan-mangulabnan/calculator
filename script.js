@@ -67,7 +67,7 @@ allButtons.addEventListener(`click`, (event) => {
     }
 })
 
-allButtons.addEventListener(`mouseover`, (event) => { //4AE3AF
+allButtons.addEventListener(`mouseover`, (event) => {
     
     if (event.target.matches(`.buttons-right > button`)) {
         if (event.target.id !== `equals`) {
@@ -85,10 +85,41 @@ allButtons.addEventListener(`mouseover`, (event) => { //4AE3AF
         }
     } else if (event.target.matches(`.buttons-left-bot > button`)) {
         if (event.target.id === `decimal`) {
-            event.target.style.backgroundColor = `#1EC28A`;
-            event.target.style.color = `#ffffff`;
+            if (decimalPoint.disabled == false) {
+                event.target.style.backgroundColor = `#1EC28A`;
+                event.target.style.color = `#ffffff`;
+            }
         } else {
             event.target.style.backgroundColor = `#4AE3AF`;
+        }
+    }
+})
+
+allButtons.addEventListener(`mousedown`, (event) => {
+    
+    if (event.target.matches(`.buttons-right > button`)) {
+        if (event.target.id !== `equals`) {
+            event.target.style.backgroundColor = `#e34a7e`; 
+            event.target.style.color = ``;
+        } else {
+            event.target.style.backgroundColor = `#bc3254`;
+            event.target.style.color = `#ffffff`;
+        }
+    } else if (event.target.matches(`.buttons-left-top > button`)) {
+        if (event.target.id === `plusMinus` || event.target.id === `clear` || event.target.id === `clearOne`) {
+            event.target.style.backgroundColor = `#4AE3AF`;
+            event.target.style.color = ``;
+        } else {
+            event.target.style.backgroundColor = `#1EC28A`;
+            event.target.style.color = `#ffffff`;
+        }
+    } else if (event.target.matches(`.buttons-left-bot > button`)) {
+        if (event.target.id === `decimal`) {
+            event.target.style.backgroundColor = `#4AE3AF`;
+            event.target.style.color = ``;
+        } else {
+            event.target.style.backgroundColor = `#1EC28A`;
+            event.target.style.color = `#ffffff`;
         }
     }
 })
