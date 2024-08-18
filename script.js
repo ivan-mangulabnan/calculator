@@ -3,6 +3,7 @@ const allButtons = document.querySelector(`.buttons-area`);
 const decimalPoint = document.querySelector(`#decimal`);
 const buttonsRight = document.querySelector(`.buttons-right`);
 
+let operatorIsActive = false;
 
 allButtons.addEventListener(`click`, (event) => {
     
@@ -50,13 +51,13 @@ allButtons.addEventListener(`click`, (event) => {
             decimal();
             break;
         case `add` : 
-            operatorToUse(`+`);    
+            operatorToUse(`+`);   
             break;
         case `sub` : 
-            operatorToUse(`-`);     
+            operatorToUse(`-`);
             break;
         case `mul` : 
-            operatorToUse(`×`);     
+            operatorToUse(`×`);   
             break;
         case `div` : 
             operatorToUse(`÷`);
@@ -65,34 +66,22 @@ allButtons.addEventListener(`click`, (event) => {
             operate();
             break;
     }
-})
 
-allButtons.addEventListener(`mouseover`, (event) => {
-    
-    if (event.target.matches(`.buttons-right > button`)) {
-        if (event.target.id !== `equals`) {
-            event.target.style.backgroundColor = `#bc3254`; 
-            event.target.style.color = `#ffffff`;
-        } else {
-            event.target.style.backgroundColor = `#e34a7e`;
-        }
-    } else if (event.target.matches(`.buttons-left-top > button`)) {
-        if (event.target.id === `plusMinus` || event.target.id === `clear` || event.target.id === `clearOne`) {
-            event.target.style.backgroundColor = `#1EC28A`;
-            event.target.style.color = `#ffffff`;
-        } else {
-            event.target.style.backgroundColor = `#4AE3AF`;
-        }
-    } else if (event.target.matches(`.buttons-left-bot > button`)) {
-        if (event.target.id === `decimal`) {
-            if (decimalPoint.disabled == false) {
-                event.target.style.backgroundColor = `#1EC28A`;
-                event.target.style.color = `#ffffff`;
+    if (event.target.matches('button')) {
+        
+        document.querySelectorAll('button').forEach(button => {
+            button.style.backgroundColor = '';
+            button.style.color = '';
+        });
+
+        if (event.target.matches(`.buttons-right > button`)) {
+            if (event.target.id !== `equals`) {
+                event.target.style.backgroundColor = '#bc3254';
+                event.target.style.color = '#ffffff';
             }
-        } else {
-            event.target.style.backgroundColor = `#4AE3AF`;
         }
     }
+
 })
 
 allButtons.addEventListener(`mousedown`, (event) => {
@@ -108,7 +97,7 @@ allButtons.addEventListener(`mousedown`, (event) => {
     } else if (event.target.matches(`.buttons-left-top > button`)) {
         if (event.target.id === `plusMinus` || event.target.id === `clear` || event.target.id === `clearOne`) {
             event.target.style.backgroundColor = `#4AE3AF`;
-            event.target.style.color = ``;
+            event.target.style.color = `black`;
         } else {
             event.target.style.backgroundColor = `#1EC28A`;
             event.target.style.color = `#ffffff`;
@@ -116,20 +105,12 @@ allButtons.addEventListener(`mousedown`, (event) => {
     } else if (event.target.matches(`.buttons-left-bot > button`)) {
         if (event.target.id === `decimal`) {
             event.target.style.backgroundColor = `#4AE3AF`;
-            event.target.style.color = ``;
+            event.target.style.color = `black`;
         } else {
             event.target.style.backgroundColor = `#1EC28A`;
             event.target.style.color = `#ffffff`;
         }
     }
-})
-
-allButtons.addEventListener(`mouseout`, (event) => {
-    
-    document.querySelectorAll(`button`).forEach(() => {
-        event.target.style.backgroundColor = ``;
-        event.target.style.color = ``;
-    });
 })
 
 function clearDisplay() {
@@ -288,7 +269,6 @@ function operate() {
                 break;
         }
 
-        // display.textContent = ans;
         if (ans === `Nice`) {
             display.textContent = ans;
             document.querySelectorAll(`button`).forEach(button => {
