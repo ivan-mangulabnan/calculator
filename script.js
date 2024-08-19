@@ -147,24 +147,26 @@ function clearOne() {
 }
 
 
-const MAX_LENGTH = 10;
+const MAX_LENGTH = 8;
 let showSecondOperand = false;
 
 function show(value) {
     isOperatorClicked = false;
     let displayNum = display.textContent;
 
-    if (displayNum === `0`) {
-        display.textContent = value;
-        showSecondOperand = true;
-    } else {
-        if (showSecondOperand == false) {
+    // if (displayNum.length <= MAX_LENGTH) {
+        if (displayNum === `0`) {
             display.textContent = value;
             showSecondOperand = true;
         } else {
-            display.textContent += value;
+            if (showSecondOperand == false) {
+                display.textContent = value;
+                showSecondOperand = true;
+            } else {
+                display.textContent += value;
+            }
         }
-    }
+    // }
 }
 
 function plusMinus() {
@@ -239,7 +241,7 @@ function operate() {
         arr.push(display.textContent);
         let ans;
 
-        let filteredArr = arr.filter(item => /^-?\d+(\.(\d+)?)?$/.test(item));
+        let filteredArr = arr.filter(item => /^-?\d+(\.(\d+)?)?$|^\d+(e\+)?/.test(item));
         let map = filteredArr.map(item => parseFloat(item));
         
         switch(operationArr[1]) {
@@ -288,7 +290,4 @@ function operate() {
     }
 }
 
-// Create functions for colors.
-// Create click buttons.
-// Find more bugs in the calculations.
-// ClearOne function bug.
+// length of display bug.
