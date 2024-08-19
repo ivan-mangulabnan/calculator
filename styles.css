@@ -31,7 +31,7 @@ body {
 }
 
 .format {
-    font-size: 70px;
+    font-size: 65px;
 }
 
 .buttons-area {
@@ -123,4 +123,16 @@ body {
 
 .plus {
     flex: 1 1 auto;
+}
+
+.non-numerical:disabled {
+    background-color: #d6d6d6;
+    color: #a9a9a9;
+    border-color: #a9a9a9;
+}
+
+.non-numerical:disabled:hover {
+    background-color: #d6d6d6;
+    color: #a9a9a9;
+    border-color: #a9a9a9;
 }
