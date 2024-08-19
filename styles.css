@@ -27,8 +27,11 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    font-size: 70px;
     padding-right: 5px;
+}
+
+.format {
+    font-size: 70px;
 }
 
 .buttons-area {
