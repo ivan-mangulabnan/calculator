@@ -142,18 +142,24 @@ function clearOne() {
             display.textContent = split.join(``);
         }
     } else {
-        split.pop();
+        let dec = split.pop();
+        if (dec === `.`) {
+            decimalPoint.disabled = false;
+        }
         display.textContent = split.join(``);
     }
 }
 
 
-const MAX_LENGTH = 9;
+const MAX_LENGTH = 10;
 let showSecondOperand = false;
 
 function show(value) {
     isOperatorClicked = false;
     let displayNum = display.textContent;
+    let split = displayNum.split(``);
+    let filter = split.filter(item => /\d/.test(item));
+    document.querySelector(`#clearOne`).disabled = false;
 
         if (displayNum === `0`) {
             display.textContent = value;
@@ -163,7 +169,7 @@ function show(value) {
                 display.textContent = value;
                 showSecondOperand = true;
             } else {
-                if (displayNum.length <= MAX_LENGTH) {
+                if (filter.length < MAX_LENGTH) {
                     display.textContent += value;
                 }
             }
@@ -233,6 +239,8 @@ function operatorToUse(operator) {
     }
 }
 
+const MAX_DISPLAY_VALUE = 9999999999;
+
 function operate() {
 
     let arr = operationArr;
@@ -280,8 +288,22 @@ function operate() {
                 }
             })
         } else {
-            display.textContent = ans;
-            operationArr = [ans];
+            let newString = ans.toString();
+            let split = newString.split(``);
+
+            if (ans > MAX_DISPLAY_VALUE || split.length > MAX_LENGTH) {
+                let ex = ans.toExponential();
+                let fix = parseFloat(ex).toFixed();
+                let prec = parseFloat(fix).toPrecision(1);
+
+                display.textContent = prec;
+                operationArr = [prec];
+                document.querySelector(`#clearOne`).disabled = true;
+            } else {
+                display.textContent = ans;
+                operationArr = [ans];
+            }
+            
             showSecondOperand = false;
             decimalPoint.disabled = false;
         }
@@ -290,5 +312,3 @@ function operate() {
         display.textContent = displayNum;
     }
 }
-
-// length of display bug.
