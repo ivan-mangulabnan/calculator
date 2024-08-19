@@ -130,12 +130,13 @@ function clearOne() {
     isOperatorClicked = false;
 
     if (displayText.length === 1) {
-        clearDisplay();
+        display.textContent = `0`;
     } else if (displayText.length === 2) {
         if (split.includes(`-`)) {
-            clearDisplay();
+            display.textContent = `0`;
         } else if (split.includes(`.`) && split[0] === `0`) {
-            clearDisplay();
+            display.textContent = `0`;
+            decimalPoint.disabled = false;
         } else {
             split.pop();
             display.textContent = split.join(``);
@@ -147,14 +148,13 @@ function clearOne() {
 }
 
 
-const MAX_LENGTH = 8;
+const MAX_LENGTH = 9;
 let showSecondOperand = false;
 
 function show(value) {
     isOperatorClicked = false;
     let displayNum = display.textContent;
 
-    // if (displayNum.length <= MAX_LENGTH) {
         if (displayNum === `0`) {
             display.textContent = value;
             showSecondOperand = true;
@@ -163,10 +163,11 @@ function show(value) {
                 display.textContent = value;
                 showSecondOperand = true;
             } else {
-                display.textContent += value;
+                if (displayNum.length <= MAX_LENGTH) {
+                    display.textContent += value;
+                }
             }
         }
-    // }
 }
 
 function plusMinus() {
@@ -241,7 +242,7 @@ function operate() {
         arr.push(display.textContent);
         let ans;
 
-        let filteredArr = arr.filter(item => /^-?\d+(\.(\d+)?)?$|^\d+(e\+)?/.test(item));
+        let filteredArr = arr.filter(item => /^-?\d+(\.(\d+)?)?$|^\d+(e(\+|\-))?\d+$/.test(item));
         let map = filteredArr.map(item => parseFloat(item));
         
         switch(operationArr[1]) {
