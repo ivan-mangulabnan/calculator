@@ -86,32 +86,117 @@ allButtons.addEventListener(`click`, (event) => {
 
 allButtons.addEventListener(`mousedown`, (event) => {
     
-    if (event.target.matches(`.buttons-right > button`)) {
-        if (event.target.id !== `equals`) {
-            event.target.style.backgroundColor = `#e34a7e`; 
-            event.target.style.color = ``;
-        } else {
-            event.target.style.backgroundColor = `#bc3254`;
-            event.target.style.color = `#ffffff`;
-        }
-    } else if (event.target.matches(`.buttons-left-top > button`)) {
-        if (event.target.id === `plusMinus` || event.target.id === `clear` || event.target.id === `clearOne`) {
-            event.target.style.backgroundColor = `#4AE3AF`;
-            event.target.style.color = `black`;
-        } else {
-            event.target.style.backgroundColor = `#1EC28A`;
-            event.target.style.color = `#ffffff`;
-        }
-    } else if (event.target.matches(`.buttons-left-bot > button`)) {
-        if (event.target.id === `decimal`) {
-            event.target.style.backgroundColor = `#4AE3AF`;
-            event.target.style.color = `black`;
-        } else {
-            event.target.style.backgroundColor = `#1EC28A`;
-            event.target.style.color = `#ffffff`;
-        }
+    if (event.target.matches(`button`)) {
+        applyDesignToButtons(event.target);
     }
 })
+
+function applyDesignToButtons(button) {
+    if (button.matches(`.buttons-right > button`)) {
+        if (button.id !== `equals`) {
+            button.style.backgroundColor = `#e34a7e`; 
+            button.style.color = ``;
+        } else {
+            button.style.backgroundColor = `#bc3254`;
+            button.style.color = `#ffffff`;
+        }
+    } else if (button.matches(`.buttons-left-top > button`)) {
+        if (button.id === `plusMinus` || button.id === `clear` || button.id === `clearOne`) {
+            button.style.backgroundColor = `#4AE3AF`;
+            button.style.color = `black`;
+        } else {
+            button.style.backgroundColor = `#1EC28A`;
+            button.style.color = `#ffffff`;
+        }
+    } else if (button.matches(`.buttons-left-bot > button`)) {
+        if (button.id === `decimal`) {
+            button.style.backgroundColor = `#4AE3AF`;
+            button.style.color = `black`;
+        } else {
+            button.style.backgroundColor = `#1EC28A`;
+            button.style.color = `#ffffff`;
+        }
+    }
+}
+
+const keyToButtonID = {
+    '1': 'one',
+    '2': 'two',
+    '3': 'three',
+    '4': 'four',
+    '5': 'five',
+    '6': 'six',
+    '7': 'seven',
+    '8': 'eight',
+    '9': 'nine',
+    '0': 'zero',
+    'Backspace': 'clearOne',
+    'Enter': 'equals',
+    '+': 'add',
+    '-': 'sub',
+    '*': 'mul',
+    '/': 'div',
+    '.': 'decimal',
+};
+
+document.addEventListener(`keydown`, handleKeyDown);
+document.addEventListener(`keyup`, () => {
+    const buttonLeft = document.querySelectorAll(`.buttons-left-top > button, .buttons-left-bot > button`);
+    const buttonRight = document.querySelectorAll(`.buttons-right > button`);
+
+    buttonLeft.forEach(button => {
+        button.style.backgroundColor = ``;
+        button.style.color = ``;
+    })
+
+    buttonRight.forEach(button => {
+        if (button.id === `equals`) {
+            button.style.backgroundColor = ``;
+            button.style.color = ``;
+        }
+    })
+
+})
+
+function handleKeyDown(event) {
+    const buttonID = keyToButtonID[event.key];
+    const buttonsRight = document.querySelectorAll(`.buttons-right > button`);
+    const buttonsLeft = document.querySelectorAll(`.buttons-left-top > button, .buttons-left-bot > button`);
+
+    if (event.key >= `0` && event.key <= `9`) {
+        show(event.key);
+    } else if (event.key === `Backspace`) {
+        clearOne();
+    } else if (event.key === `.`) {
+        let split = display.textContent.split(``);
+        if (!split.includes(`.`)) {
+            decimal();
+        }
+    } else if (event.key === `Enter`) {
+        operate();
+    }
+
+    buttonsRight.forEach(button => {
+        button.style.backgroundColor = ``;
+        button.style.color = ``;
+
+        if (buttonID == button.id) {
+
+            if (button.id == 'equals') {
+                applyDesignToButtons(button);
+            } else {
+                button.style.backgroundColor = '#bc3254';
+                button.style.color = '#ffffff';
+            }
+        }     
+    })
+
+    buttonsLeft.forEach(button => {
+        if (buttonID == button.id) {
+            applyDesignToButtons(button);
+        }
+    })
+}
 
 function clearDisplay() {
     operationArr = [];
@@ -312,3 +397,6 @@ function operate() {
         display.textContent = displayNum;
     }
 }
+
+// Make the oprations play out using keyboard.
+// fix the disabled buttons but still producing effects.
