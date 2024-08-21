@@ -125,13 +125,11 @@ body {
     flex: 1 1 auto;
 }
 
-.non-numerical:disabled {
-    background-color: #d6d6d6;
-    color: #a9a9a9;
-    border-color: #a9a9a9;
-}
-
-.non-numerical:disabled:hover {
+#equals:disabled:hover,
+.buttons-left-top > .non-numerical:disabled:hover,
+.buttons-left-bot > .non-numerical:disabled:hover,
+button:disabled:hover,
+button:disabled {
     background-color: #d6d6d6;
     color: #a9a9a9;
     border-color: #a9a9a9;
