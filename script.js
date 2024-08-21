@@ -135,6 +135,8 @@ const keyToButtonID = {
     '*': 'mul',
     '/': 'div',
     '.': 'decimal',
+    'Delete': 'clear',
+    'Insert': 'plusMinus'
 };
 
 document.addEventListener(`keydown`, handleKeyDown);
@@ -160,50 +162,60 @@ function handleKeyDown(event) {
     const buttonID = keyToButtonID[event.key];
     const buttonsRight = document.querySelectorAll(`.buttons-right > button`);
     const buttonsLeft = document.querySelectorAll(`.buttons-left-top > button, .buttons-left-bot > button`);
+    const allBtn = document.querySelectorAll(`.buttons-left-top > button, .buttons-left-bot > button, .buttons-right > button`);
 
-    if (event.key >= `0` && event.key <= `9`) {
-        show(event.key);
-    } else if (event.key === `Backspace`) {
-        clearOne();
-    } else if (event.key === `.`) {
-        let split = display.textContent.split(``);
-        if (!split.includes(`.`)) {
-            decimal();
+    allBtn.forEach(button => {
+        if (!button.disabled) {
+            if (button.id === buttonID) {
+                if (event.key >= `0` && event.key <= `9`) {
+                    show(event.key);
+                } else if (event.key === `Backspace`) {
+                    clearOne();
+                } else if (event.key === `.`) {
+                    let split = display.textContent.split(``);
+                    if (!split.includes(`.`)) {
+                        decimal();
+                    }
+                } else if (event.key === `Enter`) {
+                    operate();
+                } else if (event.key === `+`) {
+                    operatorToUse(`+`);
+                } else if (event.key === `-`) {
+                    operatorToUse(`-`);
+                } else if (event.key === `*`) {
+                    operatorToUse(`×`);
+                } else if (event.key === `/`) {
+                    operatorToUse(`÷`);
+                } else if (event.key === `Delete`) {
+                    clearDisplay();
+                } else if (event.key === `Insert`) {
+                    plusMinus();
+                }
+            }
         }
-    } else if (event.key === `Enter`) {
-        operate();
-    } else if (event.key === `+`) {
-        operatorToUse(`+`);
-    } else if (event.key === `-`) {
-        operatorToUse(`-`);
-    } else if (event.key === `*`) {
-        operatorToUse(`×`);
-    } else if (event.key === `/`) {
-        operatorToUse(`÷`);
-    } else if (event.key === `Delete`) {
-        clearDisplay();
-    } else if (event.key === `Insert`) {
-        plusMinus();
-    }
+    })
 
     buttonsRight.forEach(button => {
         button.style.backgroundColor = ``;
         button.style.color = ``;
 
         if (buttonID == button.id) {
-
-            if (button.id == 'equals') {
-                applyDesignToButtons(button);
-            } else {
-                button.style.backgroundColor = '#bc3254';
-                button.style.color = '#ffffff';
+            if (!button.disabled) {
+                if (button.id == 'equals') {
+                    applyDesignToButtons(button);
+                } else {
+                    button.style.backgroundColor = '#bc3254';
+                    button.style.color = '#ffffff';
+                }
             }
         }     
     })
 
     buttonsLeft.forEach(button => {
         if (buttonID == button.id) {
-            applyDesignToButtons(button);
+            if (!button.disabled) {
+                applyDesignToButtons(button);
+            }
         }
     })
 }
@@ -407,6 +419,3 @@ function operate() {
         display.textContent = displayNum;
     }
 }
-
-// Make the oprations play out using keyboard.
-// fix the disabled buttons but still producing effects.
