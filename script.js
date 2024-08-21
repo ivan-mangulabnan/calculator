@@ -3,8 +3,6 @@ const allButtons = document.querySelector(`.buttons-area`);
 const decimalPoint = document.querySelector(`#decimal`);
 const buttonsRight = document.querySelector(`.buttons-right`);
 
-let operatorIsActive = false;
-
 allButtons.addEventListener(`click`, (event) => {
     
     switch(event.target.id) {
@@ -174,6 +172,18 @@ function handleKeyDown(event) {
         }
     } else if (event.key === `Enter`) {
         operate();
+    } else if (event.key === `+`) {
+        operatorToUse(`+`);
+    } else if (event.key === `-`) {
+        operatorToUse(`-`);
+    } else if (event.key === `*`) {
+        operatorToUse(`×`);
+    } else if (event.key === `/`) {
+        operatorToUse(`÷`);
+    } else if (event.key === `Delete`) {
+        clearDisplay();
+    } else if (event.key === `Insert`) {
+        plusMinus();
     }
 
     buttonsRight.forEach(button => {
